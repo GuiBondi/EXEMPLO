@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="../static/jquery/jquery-3.5.1.min.js"></script>
+        <script src="../static/bootstrap/css/bootstrap-grid.css"></script>
+        <link rel="stylesheet" href="../static/bootstrap/css/bootstrap-grid.css">
+        <link rel="stylesheet" href="../static/bootstrap/css/bootstrap-reboot.css">
+        <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.css">
+        <script src="../static/bootstrap/js/bootstrap.bundle.js"></script>
+        <script src="../static/bootstrap/js/bootstrap.js"></script>
+        <link rel="shortcut icon" type="image/png" href="../static/images/favicon.png">
+        <link rel="stylesheet" href="../static/styles/dashboard.css">
+        <link rel="stylesheet" href="../static/styles/Loading.css">
+        <script src="../static/scripts/dashboard.js"></script>
+        <title>Loja</title>
+    </head>
+    <body>
+        <div id="Logo">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-1">
+                        <img src="../static/images/store.png" style="width:100px"/>
+                    </div>
+                    <div class="col-11">
+                        <h1 class="display-3">Loja</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin:24px 0;">
+            <div class="container">
+                <a class="navbar-brand" href="javascript:void(0)"><img src="../static/images/favicon.png"></a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navb">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                    <button type="button" class="btn btn-dark" onclick="novocliente();">Novo Cliente</button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="btn btn-dark" onclick="novocolaborador();">Novo Colaborador</button>
+                    </li>
+                    <li class="nav-item">
+                        <form action="http://www.loja4.pt/logout" method="POST">
+                            <input id="username5" name="username" type="hidden" value="{{username}}">
+                            <button type="submit" class="btn btn-dark">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+                <form action="http://www.loja4.pt/search" method="POST" class="form-inline my-2 my-lg-0">
+                    <input id="username6" name="username" type="hidden" value={{username}}>
+                    <input id="search" name="search" class="form-control mr-sm-2" type="text" placeholder="Pesquisar...">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">Pesquisar</button>
+                </form>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <table class="table table-dark table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Nº Cliente</th>
+                        <th>Tipo Cliente</th>
+                        <th>Nome/Entidade</th>
+                        <th>NIF/NIPC</th>
+                        <th>Morada</th>
+                        <th>C. Postal</th>
+                        <th>Telefone</th>
+                        <th>e-mail</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in todososclientes %}
+                        <tr>
+                            {% for key,value in row.items() %}
+                                {% if key!="username" %}
+                                <td>{{ value }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td><button class="btn btn-dark" onclick="editar(this);"><img src="../static/images/edit.png"/></button></td>
+                            <td><button class="btn btn-dark" onclick="editar2(this);"><img src="../static/images/eraser.png"/></button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="formulario" class="editar">
+            <form action="http://www.loja4.pt/atualizarcliente" method="POST">
+                <input id="username" name="username" type="hidden" value="{{username}}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nº de Cliente</span>
+                    </div>
+                    <input id="NumeroCliente" name="numerocliente" type="text" class="form-control disabled" readonly/>
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Tipo de Cliente</span>
+                    </div>
+                    <input id="TipoCliente" name="TipoCliente" type="text" class="form-control" placeholder="Introduza o tipo de cliente">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nome</span>
+                    </div>
+                    <input id="Nome" name="Nome" type="text" class="form-control" placeholder="Introduza o nome">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">NIF</span>
+                    </div>
+                    <input id="NIF" name="NIF" type="text" class="form-control" placeholder="Introduza o NIF">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Morada</span>
+                    </div>
+                    <input id="Morada" name="Morada" type="text" class="form-control" placeholder="Introduza a morada">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Código Postal</span>
+                    </div>
+                    <input id="CodigoPostal" name="CodigoPostal" type="text" class="form-control" placeholder="Introduza o código postal">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Telefone</span>
+                    </div>
+                    <input id="Telefone" name="Telefone" type="text" class="form-control" placeholder="Introduza o telefone">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">e-mail</span>
+                    </div>
+                    <input id="email" name="email" type="text" class="form-control" placeholder="Introduza o e-mail">
+                </div><br/>
+                <div class="input-group">
+                    <button type="button" class="btn btn-danger" onclick="esconder();">Cancelar</button>
+                    &nbsp;
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <div id="formulario2" class="apagar">
+            <form action="http://www.loja4.pt/removercliente" method="POST">
+                <input id="username2" name="username" type="hidden" value="{{username}}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nº de Cliente</span>
+                    </div>
+                    <input id="NumeroCliente2" name="numerocliente2" type="text" class="form-control disabled" readonly/>
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nome</span>
+                    </div>
+                    <input id="Nome2" type="text" class="form-control disabled">
+                </div><br/>
+                <div class="input-group">
+                    <button type="button" class="btn btn-danger" onclick="esconder2();">Cancelar</button>
+                    &nbsp;
+                    <button type="submit" class="btn btn-success">Apagar</button>
+                </div>
+            </form>
+        </div>
+        <div id="formulario3" class="editar">
+            <form action="http://www.loja4.pt/inserircliente" method="POST">
+                <input id="username3" name="username" type="hidden" value="{{username}}">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Tipo de Cliente</span>
+                    </div>
+                    <input id="TipoCliente3" name="TipoCliente3" type="text" class="form-control" placeholder="Introduza o tipo de cliente">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Nome</span>
+                    </div>
+                    <input id="Nome3" name="Nome3" type="text" class="form-control" placeholder="Introduza o nome">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">NIF</span>
+                    </div>
+                    <input id="NIF3" name="NIF3" type="text" class="form-control" placeholder="Introduza o NIF">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Morada</span>
+                    </div>
+                    <input id="Morada3" name="Morada3" type="text" class="form-control" placeholder="Introduza a morada">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Código Postal</span>
+                    </div>
+                    <input id="CodigoPostal3" name="CodigoPostal3" type="text" class="form-control" placeholder="Introduza o código postal">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Telefone</span>
+                    </div>
+                    <input id="Telefone3" name="Telefone3" type="text" class="form-control" placeholder="Introduza o telefone">
+                </div><br/>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">e-mail</span>
+                    </div>
+                    <input id="email3" name="email3" type="text" class="form-control" placeholder="Introduza o e-mail">
+                </div><br/>
+                <div class="input-group">
+                    <button type="button" class="btn btn-danger" onclick="esconder3();">Cancelar</button>
+                    &nbsp;
+                    <button type="submit" class="btn btn-success">Inserir</button>
+                </div>
+            </form>
+        </div>
+    </form>
+</div>
+<div id="formularionovocolaborador" class="editar">
+    <form action="http://www.loja4.pt/registarcolaborador" method="POST">
+        <input id="username4" name="username" type="hidden" value="{{username}}">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nome do Colaborador</span>
+            </div>
+            <input id="NomeColaborador" name="nomecolaborador" type="text" class="form-control" placeholder="Introduza o nome do colaborador"/>
+        </div><br/>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nome de utilizador</span>
+            </div>
+            <input id="NomeUtilizador" name="nomeutilizador" type="text" class="form-control" placeholder="Introduza o nome do utilizador">
+        </div><br/>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Palavra-chave</span>
+            </div>
+            <input id="PalavraChave" name="palavrachave" type="text" class="form-control" placeholder="Introduza a palvra-chave">
+        </div><br/>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Telefone</span>
+            </div>
+            <input id="Telefone" name="telefone" type="text" class="form-control" placeholder="Introduza o telefone">
+        </div><br/>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">e-mail</span>
+            </div>
+            <input id="email" name="email" type="text" class="form-control" placeholder="Introduza o e-mail">
+        </div><br/>
+        <div class="input-group">
+            <button type="button" class="btn btn-danger" onclick="escondernovocolaborador();">Cancelar</button>
+            &nbsp;
+            <button type="submit" class="btn btn-success">Registar</button>
+        </div>
+    </form>
+</div>
+<div class="loading">
+    <span>Aguarde...</span>
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+﻿.LoginBox{
+    position:absolute;
+    width:430px;
+    height:250px;
+    top:50%;
+    margin-top:-125px;
+    left:50%;
+    margin-left:-210px;
+}
+
+.mensagem{
+    text-align: center;
+    position:absolute;
+    width:430px;
+    height:250px;
+    top:50%;
+    margin-top:-125px;
+    left:51%;
+    margin-left:-210px;
+}
+.botaoMensagem{
+    text-align: center;
+    position: absolute;
+    width: 332px;
+    height: 44px;
+    top: 50%;
+    margin-top: -86px;
+    left: 55%;
+    margin-left: -210px;
+}
+
+#erro{
+    display:none;
+}
